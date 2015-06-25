@@ -1,0 +1,24 @@
+{
+  "name": "i-lateral/silverstripe-commerce-groupedproduct",
+  "description": "Allow grouping of sub products under a parent product.",
+  "type": "silverstripe-module",
+    "homepage": "http://github.com/i-lateral/silverstripe-commerce-groupedproduct",
+    "keywords": ["silverstripe","commerce","product","grouped","children"],
+    "license": "BSD-3-Clause",
+    "authors": [
+        {
+            "name": "i-lateral",
+            "email": "info@i-lateral.com"
+        }
+    ],
+    "support": {
+        "issues": "http://github.com/i-lateral/silverstripe-commerce-groupedproduct/issues"
+    },
+    "require": {
+        "silverstripe/framework": ">=3.1",
+        "i-lateral/silverstripe-commerce": "2.0.*@dev"
+    },
+    "extra": {
+        "installer-name": "commerce-groupedproduct"
+    }
+}
