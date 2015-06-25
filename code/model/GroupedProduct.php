@@ -7,10 +7,6 @@ class GroupedProduct extends Product {
      */
     private static $description = "A product containing other products";
     
-    private static $db = array(
-        "ShowChildrenAs" => "Enum('Dropdown,Optionset','Dropdown')"
-    );
-    
     private static $has_many = array(
         "ChildProducts" => "Product"
     );
