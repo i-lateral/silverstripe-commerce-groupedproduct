@@ -15,15 +15,6 @@ class GroupedProduct extends Product {
         $fields = parent::getCMSFields();
         
         $fields->addFieldToTab(
-            "Root.Settings",
-            $grid = DropdownField::create(
-                "ShowChildrenAs",
-                null,
-                $this->dbobject("ShowChildrenAs")->enumValues()
-            )
-        );
-        
-        $fields->addFieldToTab(
             "Root.Children",
             $grid = GridField::create(
                 "Products",
