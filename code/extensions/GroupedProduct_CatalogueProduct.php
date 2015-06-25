@@ -29,8 +29,16 @@ class GroupedProduct_CatalogueProduct extends DataExtension {
     }
     
     public function onBeforeWrite() {
-        if($this->owner->ProductGroupID && !$this->owner->BasePrice)
-            $this->owner->BasePrice = $this->owner->ProductGroup()->BasePrice;
+        if($this->owner->ProductGroupID) {
+            $group = $this->owner->ProductGroup();
+            
+            // Set the URL for this product to include the parent URL
+            $this->owner->URLSegment = $group->URLSegment . "-" . Convert::raw2url($this->owner->Title);
+               
+            // Set the base price
+            if(!$this->owner->BasePrice)
+                $this->owner->BasePrice = $group->BasePrice;
+        }
     }
     
 }
