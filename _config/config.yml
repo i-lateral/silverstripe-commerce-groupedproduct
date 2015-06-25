@@ -1,0 +1,13 @@
+---
+Name: CommerceGroupedProduct
+After: 'framework/*'
+---
+CatalogueAdmin:
+  extensions:
+    - GroupedProduct_CatalogueAdmin
+CatalogueProduct:
+  extensions:
+    - GroupedProduct_CatalogueProduct
+Product_Controller:
+  extensions:
+    - GroupedProduct_ProductController
