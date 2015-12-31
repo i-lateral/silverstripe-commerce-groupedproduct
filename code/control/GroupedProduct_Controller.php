@@ -1,6 +1,7 @@
 <?php
 
-class GroupedProduct_Controller extends Product_Controller {
+class GroupedProduct_Controller extends Product_Controller
+{
     
     
     
@@ -13,7 +14,8 @@ class GroupedProduct_Controller extends Product_Controller {
      * 
      * @return Form 
      */
-    public function Form() {
+    public function Form()
+    {
         $object = $this->dataRecord;
         $field_type = $this->ShowChildrenAs . "Field";
         $children = ArrayList::create();
@@ -28,12 +30,12 @@ class GroupedProduct_Controller extends Product_Controller {
                     "ID",
                     _t("GroupedProduct.PleaseSelect", "Please Select:")
                 )->addExtraClass('forms-list'),
-                QuantityField::create('Quantity', _t('Commerce.Qty','Qty'))
+                QuantityField::create('Quantity', _t('Commerce.Qty', 'Qty'))
                     ->setValue('1')
                     ->addExtraClass('checkout-additem-quantity')
             ),
             FieldList::create(
-                FormAction::create('doAddItemToCart',_t('Commerce.AddToCart','Add to Cart'))
+                FormAction::create('doAddItemToCart', _t('Commerce.AddToCart', 'Add to Cart'))
                     ->addExtraClass('btn')
                     ->addExtraClass('btn-green')
             ),
@@ -44,8 +46,7 @@ class GroupedProduct_Controller extends Product_Controller {
         );
         
         // Generate our list of children
-        foreach($object->ChildProducts() as $product) {
-            
+        foreach ($object->ChildProducts() as $product) {
             $price = ((int)$product->Price) ? $product->Price : $object->Price;
             $price_diff = $price - $object->Price;
                         
@@ -62,7 +63,8 @@ class GroupedProduct_Controller extends Product_Controller {
         return $form;
     }
     
-    public function doAddItemToCart($data, $form) {
+    public function doAddItemToCart($data, $form)
+    {
         $classname = $data["ClassName"];
         $id = $data["ID"];
         $cart = ShoppingCart::get();
@@ -70,11 +72,12 @@ class GroupedProduct_Controller extends Product_Controller {
         $object = $classname::get()->byID($id);
         $parent = $object->ProductGroup();
         
-        if($object && $parent) {
-            if($parent->TaxRateID && $parent->TaxRate()->Amount)
+        if ($object && $parent) {
+            if ($parent->TaxRateID && $parent->TaxRate()->Amount) {
                 $tax_rate = $parent->TaxRate()->Amount;
-            else
+            } else {
                 $tax_rate = 0;
+            }
                 
             $price = ((int)$object->Price) ? $object->Price : $parent->Price;
             $image = ($object->Images()->exists()) ? $object->SortedImages()->first() : $parent->SortedImages()->first();
@@ -108,12 +111,12 @@ class GroupedProduct_Controller extends Product_Controller {
                     "success",
                     $message
                 );
-            } catch(ValidationException $e) {
+            } catch (ValidationException $e) {
                 $this->owner->setSessionMessage(
                     "bad",
                     $e->getMessage()
                 );
-            } catch(Exception $e) {
+            } catch (Exception $e) {
                 $this->owner->setSessionMessage(
                     "bad",
                     $e->getMessage()
@@ -128,5 +131,4 @@ class GroupedProduct_Controller extends Product_Controller {
 
         return $this->redirectBack();
     }
-    
 }
