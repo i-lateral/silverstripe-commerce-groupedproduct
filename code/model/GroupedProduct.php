@@ -1,6 +1,7 @@
 <?php
 
-class GroupedProduct extends Product {
+class GroupedProduct extends Product
+{
     
     /**
      * @config
@@ -11,7 +12,8 @@ class GroupedProduct extends Product {
         "ChildProducts" => "Product"
     );
     
-    public function getCMSFields() {
+    public function getCMSFields()
+    {
         $fields = parent::getCMSFields();
         
         $fields->addFieldToTab(
@@ -40,25 +42,27 @@ class GroupedProduct extends Product {
         return $fields;
     }
     
-    public function onBeforeWrite() {
+    public function onBeforeWrite()
+    {
         parent::onBeforeWrite();
         
         // Loop through our children and save (incase we need to set prices)
-        foreach($this->ChildProducts() as $product) {
+        foreach ($this->ChildProducts() as $product) {
             $write = false;
             
-            if(!$product->BasePrice && $this->BasePrice) {
+            if (!$product->BasePrice && $this->BasePrice) {
                 $product->BasePrice = $this->BasePrice;
                 $write = true;
             }
             
-            if($this->isChanged("BasePrice")) {
+            if ($this->isChanged("BasePrice")) {
                 $product->BasePrice = $this->BasePrice;
                 $write = true;
             }
             
-            if($write) $product->write();
+            if ($write) {
+                $product->write();
+            }
         }
     }
-    
 }
