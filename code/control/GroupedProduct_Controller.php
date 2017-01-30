@@ -90,7 +90,8 @@ class GroupedProduct_Controller extends Product_Controller {
                 "StockID" => $object->StockID,
                 "ID" => $object->ID,
                 "Weight" => $weight,
-                "ClassName" => $object->ClassName
+                "ClassName" => $object->ClassName,
+                "Stocked" => $object->Stocked
             );
             
             // Try and add item to cart, return any exceptions raised
