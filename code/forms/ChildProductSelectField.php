@@ -36,5 +36,36 @@ class ChildProductSelectField extends OptionsetField {
 			$this->getTemplates()
 		);
 	}
+	
+	/**
+	 * Get the source of this field as an array
+	 *
+	 * @return array
+	 */
+	public function getSourceAsArray()
+	{
+		$source = $this->getSource();
+		if (is_array($source)) {
+			return $source;
+		} else {
+			$sourceArray = array();
+			foreach ($source as $item) {
+				$sourceArray[$item->ID] = $item->Title;
+			}
+		}
+		
+		return $sourceArray;
+	}
+
+	/**
+	 * {@inheritdoc}
+	 */
+	public function validate($validator) {
+		if (!$this->value) {
+			return true;
+		}
+
+		return parent::validate($validator);
+	}
     
 }
