@@ -44,8 +44,7 @@ class GroupedProduct_Controller extends Product_Controller {
         );
         
         // Generate our list of children
-        foreach($object->ChildProducts() as $product) {
-            
+        foreach($object->SortedChildProducts() as $product) {
             $price = ((int)$product->Price) ? $product->Price : $object->Price;
             $price_diff = $price - $object->Price;
                         

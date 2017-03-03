@@ -2,11 +2,18 @@
 
 class GroupedProduct_CatalogueProduct extends DataExtension {
     
+    private static $db = array(
+        "ProductGroupSort" => "Int"
+    );
+
     private static $has_one = array(
         "ProductGroup" => "Product"
     );
     
     public function updateCMSFields(FieldList $fields) {
+        // Remove sort field
+        $fields->removeByName("ProductGroupSort");
+
         $fields->addFieldToTab(
             "Root.Settings",
             DropdownField::create(
@@ -28,7 +35,8 @@ class GroupedProduct_CatalogueProduct extends DataExtension {
         }
     }
     
-    public function onBeforeWrite() {
+    public function onBeforeWrite() 
+    {
         if($this->owner->ProductGroupID) {
             $group = $this->owner->ProductGroup();
             
@@ -36,8 +44,9 @@ class GroupedProduct_CatalogueProduct extends DataExtension {
             $this->owner->URLSegment = $group->URLSegment . "-" . Convert::raw2url($this->owner->Title);
                
             // Set the base price
-            if(!$this->owner->BasePrice)
+            if (!$this->owner->BasePrice) {
                 $this->owner->BasePrice = $group->BasePrice;
+            }
         }
     }
     
