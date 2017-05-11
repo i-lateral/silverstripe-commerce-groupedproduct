@@ -17,31 +17,29 @@ class GroupedProduct_Controller extends Product_Controller {
         $object = $this->dataRecord;
         $field_type = $this->ShowChildrenAs . "Field";
         $children = ArrayList::create();
-        
-        $form = Form::create(
-            $this,
-            "Form",
-            FieldList::create(
-                HiddenField::create('ClassName')
-                    ->setValue("Product"),
-                $id_field = ChildProductSelectField::create(
-                    "ID",
-                    _t("GroupedProduct.PleaseSelect", "Please Select:")
-                )->addExtraClass('forms-list'),
-                QuantityField::create('Quantity', _t('Commerce.Qty','Qty'))
-                    ->setValue('1')
-                    ->addExtraClass('checkout-additem-quantity')
-            ),
-            FieldList::create(
-                FormAction::create('doAddItemToCart',_t('Commerce.AddToCart','Add to Cart'))
-                    ->addExtraClass('btn')
-                    ->addExtraClass('btn-green')
-            ),
-            new RequiredFields(array(
-                "ID",
-                "Quantity"
-            ))
+
+        // Setup additional fields and validator
+        $form = parent::Form();
+        $fields = $form->Fields();
+
+        $fields->add(
+            HiddenField::create('ClassName')
+                ->setValue("Product")
         );
+
+        $id_field = ChildProductSelectField::create(
+            "ID",
+            _t("GroupedProduct.PleaseSelect", "Please Select:")
+        )->addExtraClass('forms-list');
+
+        $fields->insertBefore(
+            $id_field,
+            "Quantity"
+        );
+
+        $form
+            ->getValidator()
+            ->addRequiredField("ID");
         
         // Generate our list of children
         foreach($object->SortedChildProducts() as $product) {
